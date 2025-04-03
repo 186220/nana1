@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - 个人资料</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-header {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, #3C52AB 0%, #4D67C7 100%);
+            border-radius: 0 0 30px 30px;
+            padding: 20px;
+            margin-bottom: 80px;
+        }
+        
+        .profile-info {
+            position: absolute;
+            bottom: -70px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        
+        .profile-details {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .profile-job {
+            color: var(--dark-grey);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .profile-tag {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 100px;
+        }
+        
+        .edit-profile {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .section {
+            padding: 0 16px;
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title .view-all {
+            color: var(--primary-color);
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: normal;
+        }
+        
+        .rating-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+        
+        .rating-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .rating-score {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .rating-text {
+            font-size: 14px;
+            color: var(--dark-grey);
+        }
+        
+        .rating-stars {
+            color: #FFC107;
+            font-size: 18px;
+        }
+        
+        .rating-meta {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .rating-item {
+            text-align: center;
+        }
+        
+        .rating-value {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .rating-label {
+            font-size: 12px;
+            color: var(--dark-grey);
+        }
+        
+        .rating-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .rating-tag {
+            background-color: var(--grey-color);
+            padding: 8px 15px;
+            border-radius: 100px;
+            font-size: 13px;
+        }
+        
+        .rating-tag.highlight {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+        
+        .menu-list {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--grey-color);
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .menu-icon i {
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+        
+        .menu-text {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .menu-arrow {
+            color: var(--dark-grey);
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: var(--grey-color);
+            border-radius: 8px;
+        }
+        
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        
+        .contact-icon i {
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .contact-value {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .contact-edit {
+            color: var(--primary-color);
+            padding: 5px;
+        }
+        
+        .statistics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .statistic-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .statistic-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .statistic-label {
+            font-size: 13px;
+            color: var(--dark-grey);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <iframe src="components/status_bar.html" frameborder="0" width="100%" height="44px" style="overflow:hidden;"></iframe>
+        
+        <!-- 个人资料头部 -->
+        <div class="profile-header">
+            <div class="edit-profile">
+                <i class="fas fa-pen"></i>
+            </div>
+            
+            <div class="profile-info">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="用户头像" class="profile-avatar">
+                <div class="profile-details">
+                    <div class="profile-name">张明</div>
+                    <div class="profile-job">UI/UX 设计师 & 前端开发</div>
+                    <div class="profile-tags">
+                        <div class="profile-tag">UI设计</div>
+                        <div class="profile-tag">前端开发</div>
+                        <div class="profile-tag">响应式设计</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content-area" style="height: calc(100% - 244px); margin-top: 80px;">
+            <!-- 评价统计 -->
+            <div class="section">
+                <div class="section-title">
+                    我的评价
+                    <a href="reviews.html" class="view-all">查看全部</a>
+                </div>
+                
+                <div class="rating-card">
+                    <div class="rating-header">
+                        <div>
+                            <div class="rating-score">4.8</div>
+                            <div class="rating-text">综合评分</div>
+                        </div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-meta">
+                        <div class="rating-item">
+                            <div class="rating-value">95%</div>
+                            <div class="rating-label">接单成功率</div>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-value">28</div>
+                            <div class="rating-label">完成项目</div>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-value">24</div>
+                            <div class="rating-label">好评数量</div>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-tags">
+                        <div class="rating-tag highlight">专业技能强 (18)</div>
+                        <div class="rating-tag highlight">沟通流畅 (15)</div>
+                        <div class="rating-tag">按时交付 (12)</div>
+                        <div class="rating-tag">解决方案优秀 (10)</div>
+                        <div class="rating-tag">响应迅速 (8)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 联系信息 -->
+            <div class="section">
+                <div class="section-title">联系方式</div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-value">138****5678</div>
+                        <div class="contact-edit">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-value">zhangming@example.com</div>
+                        <div class="contact-edit">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 业务统计 -->
+            <div class="section">
+                <div class="section-title">业务统计</div>
+                
+                <div class="statistics-grid">
+                    <div class="statistic-card">
+                        <div class="statistic-value">¥86,500</div>
+                        <div class="statistic-label">今年收入</div>
+                    </div>
+                    
+                    <div class="statistic-card">
+                        <div class="statistic-value">32</div>
+                        <div class="statistic-label">接单总数</div>
+                    </div>
+                    
+                    <div class="statistic-card">
+                        <div class="statistic-value">18</div>
+                        <div class="statistic-label">客户数量</div>
+                    </div>
+                    
+                    <div class="statistic-card">
+                        <div class="statistic-value">8</div>
+                        <div class="statistic-label">平均项目周期(天)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能菜单 -->
+            <div class="section">
+                <div class="section-title">设置</div>
+                
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div class="menu-text">个人名片</div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="menu-text">钱包与收款</div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="menu-text">通知设置</div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="menu-text">账号安全</div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="menu-text">帮助与反馈</div>
+                        <div class="menu-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="tab-bar">
+            <a href="home.html" class="tab-item">
+                <i class="tab-icon fas fa-home"></i>
+                <span class="tab-text">首页</span>
+            </a>
+            <a href="projects.html" class="tab-item">
+                <i class="tab-icon fas fa-briefcase"></i>
+                <span class="tab-text">项目</span>
+            </a>
+            <a href="notifications.html" class="tab-item">
+                <div style="position: relative;">
+                    <i class="tab-icon fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="tab-text">消息</span>
+            </a>
+            <a href="profile.html" class="tab-item tab-active">
+                <i class="tab-icon fas fa-user"></i>
+                <span class="tab-text">我的</span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * 菜单项点击事件
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 在实际应用中，这里会根据点击的菜单项进行跳转
+                    const menuText = this.querySelector('.menu-text').textContent;
+                    
+                    if (menuText === '个人名片') {
+                        window.location.href = 'profile_share.html';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

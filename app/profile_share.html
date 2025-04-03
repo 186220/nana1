@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - 个人名片</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .header-with-back {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .share-header {
+            background: linear-gradient(135deg, #3C52AB 0%, #4D67C7 100%);
+            height: 200px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .share-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .share-logo img {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .share-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .share-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .card-container {
+            padding: 0 20px;
+            margin-top: -60px;
+        }
+        
+        .profile-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 4px solid white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            top: -70px;
+            margin-bottom: -40px;
+        }
+        
+        .profile-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .profile-position {
+            color: var(--dark-grey);
+            margin-bottom: 15px;
+        }
+        
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-tag {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 100px;
+            font-size: 13px;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .contact-button:active {
+            transform: scale(0.95);
+        }
+        
+        .profile-bio {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: left;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 25px 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .rating-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background-color: var(--grey-color);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .rating-stars {
+            color: #FFD700;
+            margin-right: 5px;
+        }
+        
+        .rating-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .rating-count {
+            color: var(--dark-grey);
+            font-size: 13px;
+        }
+        
+        .skill-bars {
+            margin-bottom: 20px;
+        }
+        
+        .skill-bar {
+            margin-bottom: 12px;
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .skill-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .skill-percentage {
+            font-size: 13px;
+            color: var(--dark-grey);
+        }
+        
+        .skill-track {
+            height: 6px;
+            background-color: var(--grey-color);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .skill-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+        
+        .qr-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .qr-text {
+            font-size: 14px;
+            color: var(--dark-grey);
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .action-button {
+            flex: 1;
+            padding: 12px 0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .action-button i {
+            margin-right: 8px;
+        }
+        
+        .project-showcase {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            margin: 0 -20px;
+            padding: 0 20px 20px;
+            scroll-snap-type: x mandatory;
+        }
+        
+        .project-card {
+            flex: 0 0 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            scroll-snap-align: start;
+            background-color: white;
+        }
+        
+        .project-image {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .project-info {
+            padding: 15px;
+        }
+        
+        .project-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .project-desc {
+            font-size: 13px;
+            color: var(--dark-grey);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <iframe src="components/status_bar.html" frameborder="0" width="100%" height="44px" style="overflow:hidden;"></iframe>
+        
+        <!-- 头部 -->
+        <div class="header">
+            <div class="header-with-back">
+                <a href="profile.html" class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <div class="header-title">个人名片</div>
+            </div>
+            <div>
+                <i class="fas fa-share-alt" style="font-size: 20px;"></i>
+            </div>
+        </div>
+        
+        <!-- 分享头部 -->
+        <div class="share-header">
+            <div class="share-logo">
+                <img src="https://placeholder.pics/svg/50x50/3C52AB/FFFFFF/SWAP" alt="SWAP Logo">
+            </div>
+            <div class="share-title">SWAP自由职业平台</div>
+            <div class="share-subtitle">连接专业人才与优质项目</div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content-area" style="height: auto; padding-top: 0;">
+            <div class="card-container">
+                <!-- 个人资料卡片 -->
+                <div class="profile-card">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="用户头像" class="profile-image">
+                    
+                    <div class="profile-name">张明</div>
+                    <div class="profile-position">UI/UX 设计师 & 前端开发</div>
+                    
+                    <div class="profile-tags">
+                        <div class="profile-tag">UI设计</div>
+                        <div class="profile-tag">前端开发</div>
+                        <div class="profile-tag">响应式设计</div>
+                        <div class="profile-tag">用户体验</div>
+                    </div>
+                    
+                    <div class="contact-buttons">
+                        <a href="tel:13812345678" class="contact-button">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                        <a href="mailto:zhangming@example.com" class="contact-button">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="#" class="contact-button">
+                            <i class="fab fa-weixin"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="profile-bio">
+                        7年UI/UX设计与前端开发经验，专注于创建用户友好、视觉吸引力强的数字产品。擅长将创意概念转化为高质量的可交付成果，注重细节和用户体验。
+                    </div>
+                    
+                    <div class="rating-info">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="rating-text">4.8 分</div>
+                        <div class="rating-count">(36条评价)</div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <div class="action-button btn-outline">
+                            <i class="fas fa-star"></i> 查看评价
+                        </div>
+                        <div class="action-button btn-primary">
+                            <i class="fas fa-paper-plane"></i> 联系我
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 专业技能 -->
+                <div class="section-title">专业技能</div>
+                <div class="skill-bars">
+                    <div class="skill-bar">
+                        <div class="skill-header">
+                            <div class="skill-name">UI/UX设计</div>
+                            <div class="skill-percentage">95%</div>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-bar">
+                        <div class="skill-header">
+                            <div class="skill-name">HTML/CSS</div>
+                            <div class="skill-percentage">90%</div>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-bar">
+                        <div class="skill-header">
+                            <div class="skill-name">JavaScript</div>
+                            <div class="skill-percentage">85%</div>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-bar">
+                        <div class="skill-header">
+                            <div class="skill-name">响应式设计</div>
+                            <div class="skill-percentage">92%</div>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" style="width: 92%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-bar">
+                        <div class="skill-header">
+                            <div class="skill-name">交互设计</div>
+                            <div class="skill-percentage">88%</div>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" style="width: 88%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 作品展示 -->
+                <div class="section-title">精选作品</div>
+                <div class="project-showcase">
+                    <div class="project-card">
+                        <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                        <div class="project-info">
+                            <div class="project-title">电商平台UI设计</div>
+                            <div class="project-desc">为知名电商品牌设计的响应式平台界面，优化了用户购物流程和转化率。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1481487196290-c152efe083f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                        <div class="project-info">
+                            <div class="project-title">企业官网重构</div>
+                            <div class="project-desc">为传媒公司重构的企业形象网站，提升了品牌形象和用户体验。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                        <div class="project-info">
+                            <div class="project-title">教育平台移动应用</div>
+                            <div class="project-desc">一款针对在线教育场景优化的移动应用，实现了课程管理和学习体验。</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 二维码 -->
+                <div class="qr-section">
+                    <div class="qr-code">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://example.com/profile/zhangming" alt="Profile QR Code" width="130" height="130">
+                    </div>
+                    <div class="qr-text">扫描二维码，查看我的完整作品集</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="tab-bar">
+            <a href="home.html" class="tab-item">
+                <i class="tab-icon fas fa-home"></i>
+                <span class="tab-text">首页</span>
+            </a>
+            <a href="projects.html" class="tab-item">
+                <i class="tab-icon fas fa-briefcase"></i>
+                <span class="tab-text">项目</span>
+            </a>
+            <a href="notifications.html" class="tab-item">
+                <div style="position: relative;">
+                    <i class="tab-icon fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="tab-text">消息</span>
+            </a>
+            <a href="profile.html" class="tab-item tab-active">
+                <i class="tab-icon fas fa-user"></i>
+                <span class="tab-text">我的</span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * 联系按钮和分享功能
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const shareButton = document.querySelector('.fa-share-alt').parentNode;
+            const contactButton = document.querySelector('.btn-primary');
+            
+            shareButton.addEventListener('click', function() {
+                // 在实际应用中，这里会调用系统的分享功能
+                alert('分享功能将在此处打开');
+            });
+            
+            contactButton.addEventListener('click', function() {
+                // 在实际应用中，这里会打开联系表单或聊天窗口
+                window.location.href = 'tel:13812345678';
+            });
+        });
+    </script>
+</body>
+</html> 

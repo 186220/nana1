@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - 首页</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .status-cards {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 12px;
+            padding: 10px 0;
+            margin: 0 -16px;
+            padding: 0 16px;
+        }
+        
+        .status-card {
+            flex: 0 0 80%;
+            scroll-snap-align: start;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .card-secondary {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+        
+        .card-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .status-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-card h3 i {
+            margin-right: 8px;
+        }
+        
+        .status-number {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        .status-text {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .shortcut-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            background-color: var(--grey-color);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .shortcut-icon {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .shortcut-text {
+            font-size: 12px;
+            color: var(--black-color);
+            font-weight: 500;
+        }
+
+        .banner-carousel {
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            height: 120px;
+            margin: 20px 0;
+        }
+
+        .banner-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .banner-item.active {
+            opacity: 1;
+        }
+
+        .banner-item .banner-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+        }
+
+        .banner-item .banner-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+        }
+
+        .banner-item .banner-desc {
+            font-size: 12px;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .banner-indicators {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        .indicator.active {
+            background-color: white;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title .view-all {
+            font-size: 14px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <iframe src="components/status_bar.html" frameborder="0" width="100%" height="44px" style="overflow:hidden;"></iframe>
+        
+        <!-- 头部 -->
+        <div class="header">
+            <div class="header-title">SWAP</div>
+            <div>
+                <i class="fas fa-search" style="font-size: 20px; margin-right: 15px;"></i>
+                <i class="fas fa-cog" style="font-size: 20px;"></i>
+            </div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content-area">
+            <!-- 状态卡片 -->
+            <div class="status-cards">
+                <div class="status-card card-primary">
+                    <h3><i class="fas fa-spinner"></i> 进行中项目</h3>
+                    <div class="status-number">5</div>
+                    <div class="status-text">点击查看详情</div>
+                </div>
+                
+                <div class="status-card card-secondary">
+                    <h3><i class="fas fa-money-check-alt"></i> 待结款项目</h3>
+                    <div class="status-number">3</div>
+                    <div class="status-text">待收款: ¥12,500</div>
+                </div>
+                
+                <div class="status-card card-success">
+                    <h3><i class="fas fa-check-circle"></i> 已完成项目</h3>
+                    <div class="status-number">28</div>
+                    <div class="status-text">本月完成: 4</div>
+                </div>
+            </div>
+            
+            <!-- 快捷入口 -->
+            <div class="section-title">快捷功能</div>
+            <div class="shortcut-grid">
+                <div class="shortcut-item">
+                    <i class="shortcut-icon fas fa-hand-holding-usd"></i>
+                    <div class="shortcut-text">申请结款</div>
+                </div>
+                <div class="shortcut-item">
+                    <i class="shortcut-icon fas fa-file-contract"></i>
+                    <div class="shortcut-text">查看合同</div>
+                </div>
+                <div class="shortcut-item">
+                    <i class="shortcut-icon fas fa-headset"></i>
+                    <div class="shortcut-text">联系客服</div>
+                </div>
+                <div class="shortcut-item">
+                    <i class="shortcut-icon fas fa-chart-line"></i>
+                    <div class="shortcut-text">数据统计</div>
+                </div>
+                <div class="shortcut-item">
+                    <i class="shortcut-icon fas fa-star"></i>
+                    <div class="shortcut-text">我的评价</div>
+                </div>
+                <div class="shortcut-item">
+                    <i class="shortcut-icon fas fa-share-alt"></i>
+                    <div class="shortcut-text">分享名片</div>
+                </div>
+            </div>
+            
+            <!-- 平台公告 -->
+            <div class="section-title">
+                平台公告
+                <a href="#" class="view-all">查看全部</a>
+            </div>
+            <div class="banner-carousel">
+                <div class="banner-item active" style="background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                    <div class="banner-content">
+                        <h3 class="banner-title">SWAP 3.0版本更新</h3>
+                        <p class="banner-desc">全新界面设计，更多智能功能，提升接单效率</p>
+                    </div>
+                </div>
+                
+                <div class="banner-item" style="background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                    <div class="banner-content">
+                        <h3 class="banner-title">年终嘉年华活动</h3>
+                        <p class="banner-desc">11月20日至12月20日，参与活动赢取大奖</p>
+                    </div>
+                </div>
+                
+                <div class="banner-item" style="background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                    <div class="banner-content">
+                        <h3 class="banner-title">平台企业客户招募</h3>
+                        <p class="banner-desc">推荐企业客户，获得额外佣金奖励</p>
+                    </div>
+                </div>
+                
+                <div class="banner-indicators">
+                    <div class="indicator active"></div>
+                    <div class="indicator"></div>
+                    <div class="indicator"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="tab-bar">
+            <a href="home.html" class="tab-item tab-active">
+                <i class="tab-icon fas fa-home"></i>
+                <span class="tab-text">首页</span>
+            </a>
+            <a href="projects.html" class="tab-item">
+                <i class="tab-icon fas fa-briefcase"></i>
+                <span class="tab-text">项目</span>
+            </a>
+            <a href="notifications.html" class="tab-item">
+                <div style="position: relative;">
+                    <i class="tab-icon fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="tab-text">消息</span>
+            </a>
+            <a href="profile.html" class="tab-item">
+                <i class="tab-icon fas fa-user"></i>
+                <span class="tab-text">我的</span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * 轮播图功能实现
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const bannerItems = document.querySelectorAll('.banner-item');
+            const indicators = document.querySelectorAll('.indicator');
+            let currentIndex = 0;
+            
+            function showSlide(index) {
+                bannerItems.forEach(item => item.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                
+                bannerItems[index].classList.add('active');
+                indicators[index].classList.add('active');
+                currentIndex = index;
+            }
+            
+            function nextSlide() {
+                let nextIndex = (currentIndex + 1) % bannerItems.length;
+                showSlide(nextIndex);
+            }
+            
+            // 绑定指示器点击事件
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => showSlide(index));
+            });
+            
+            // 自动轮播
+            setInterval(nextSlide, 3000);
+        });
+    </script>
+</body>
+</html> 

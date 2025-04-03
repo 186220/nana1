@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - 我的评价</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .header-with-back {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .review-summary {
+            background: linear-gradient(135deg, #3C52AB 0%, #4D67C7 100%);
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .review-score-large {
+            font-size: 48px;
+            font-weight: bold;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .review-stars {
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+        
+        .review-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .review-stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .review-stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .review-stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            overflow-x: auto;
+            margin: 0 -16px 15px;
+            padding: 0 16px;
+            white-space: nowrap;
+        }
+        
+        .filter-tab {
+            padding: 8px 16px;
+            margin-right: 10px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark-grey);
+            background-color: var(--grey-color);
+        }
+        
+        .filter-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .review-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            margin-right: 12px;
+            object-fit: cover;
+        }
+        
+        .reviewer-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .review-project {
+            font-size: 12px;
+            color: var(--dark-grey);
+        }
+        
+        .review-date {
+            font-size: 12px;
+            color: var(--dark-grey);
+            margin-top: 3px;
+        }
+        
+        .review-rating {
+            color: #FFD700;
+        }
+        
+        .review-content {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        
+        .review-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .review-tag {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 100px;
+        }
+        
+        .review-actions {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--grey-color);
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+        
+        .review-action {
+            display: flex;
+            align-items: center;
+            color: var(--dark-grey);
+            font-size: 13px;
+        }
+        
+        .review-action i {
+            margin-right: 5px;
+        }
+        
+        .review-highlight {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 3px solid var(--success-color);
+        }
+        
+        .badge-featured {
+            background-color: var(--success-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+        
+        .empty-reviews {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--dark-grey);
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            color: var(--light-color);
+        }
+        
+        .rating-breakdown {
+            margin-top: 15px;
+        }
+        
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .rating-bar-label {
+            width: 30px;
+            font-size: 12px;
+            margin-right: 10px;
+            text-align: right;
+        }
+        
+        .rating-bar-track {
+            flex: 1;
+            height: 6px;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .rating-bar-fill {
+            height: 100%;
+            background-color: white;
+        }
+        
+        .rating-bar-count {
+            width: 30px;
+            font-size: 12px;
+        }
+        
+        .section-divider {
+            height: 8px;
+            background-color: var(--grey-color);
+            margin: 20px -16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <iframe src="components/status_bar.html" frameborder="0" width="100%" height="44px" style="overflow:hidden;"></iframe>
+        
+        <!-- 头部 -->
+        <div class="header">
+            <div class="header-with-back">
+                <a href="profile.html" class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <div class="header-title">我的评价</div>
+            </div>
+            <div>
+                <i class="fas fa-share-alt" style="font-size: 20px;"></i>
+            </div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content-area">
+            <!-- 评价摘要 -->
+            <div class="review-summary">
+                <div class="review-score-large">4.8</div>
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span style="color: white; margin-left: 5px; font-size: 14px;">(36个评价)</span>
+                </div>
+                
+                <div class="rating-breakdown">
+                    <div class="rating-bar">
+                        <div class="rating-bar-label">5星</div>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" style="width: 78%;"></div>
+                        </div>
+                        <div class="rating-bar-count">28</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="rating-bar-label">4星</div>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" style="width: 17%;"></div>
+                        </div>
+                        <div class="rating-bar-count">6</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="rating-bar-label">3星</div>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" style="width: 5%;"></div>
+                        </div>
+                        <div class="rating-bar-count">2</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="rating-bar-label">2星</div>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" style="width: 0%;"></div>
+                        </div>
+                        <div class="rating-bar-count">0</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="rating-bar-label">1星</div>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" style="width: 0%;"></div>
+                        </div>
+                        <div class="rating-bar-count">0</div>
+                    </div>
+                </div>
+                
+                <div class="review-stats">
+                    <div class="review-stat-item">
+                        <div class="review-stat-value">95%</div>
+                        <div class="review-stat-label">好评率</div>
+                    </div>
+                    <div class="review-stat-item">
+                        <div class="review-stat-value">28</div>
+                        <div class="review-stat-label">完成项目</div>
+                    </div>
+                    <div class="review-stat-item">
+                        <div class="review-stat-value">18</div>
+                        <div class="review-stat-label">客户数量</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 过滤选项卡 -->
+            <div class="filter-tabs">
+                <div class="filter-tab active">全部评价</div>
+                <div class="filter-tab">5星评价</div>
+                <div class="filter-tab">4星评价</div>
+                <div class="filter-tab">3星及以下</div>
+            </div>
+            
+            <!-- 精选评价 -->
+            <div class="review-card review-highlight">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="评价者头像" class="reviewer-avatar">
+                        <div>
+                            <div class="reviewer-name">创新科技 - 技术总监 <span class="badge-featured">精选</span></div>
+                            <div class="review-project">移动应用开发项目</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="review-date">2023/09/30</div>
+                    </div>
+                </div>
+                
+                <div class="review-content">
+                    服务非常专业，整个项目从需求分析到最终交付，过程都非常顺畅。沟通及时，技术能力强，解决问题迅速。特别是在移动端适配方面的专业知识给我们提供了很大帮助。如果有需要，一定会再次合作。
+                </div>
+                
+                <div class="review-tags">
+                    <div class="review-tag">专业技能强</div>
+                    <div class="review-tag">沟通流畅</div>
+                    <div class="review-tag">解决方案优秀</div>
+                </div>
+                
+                <div class="review-actions">
+                    <div class="review-action">
+                        <i class="fas fa-thumbs-up"></i> 有用 (8)
+                    </div>
+                    <div class="review-action">
+                        <i class="fas fa-reply"></i> 回复
+                    </div>
+                    <div class="review-action">
+                        <i class="fas fa-share-alt"></i> 分享
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 普通评价 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="评价者头像" class="reviewer-avatar">
+                        <div>
+                            <div class="reviewer-name">星辰传媒 - 产品总监</div>
+                            <div class="review-project">企业官网重构项目</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="review-date">2023/10/25</div>
+                    </div>
+                </div>
+                
+                <div class="review-content">
+                    官网重构项目完全按时交付，页面加载速度大幅提升，响应式设计在各种设备上表现优异。设计风格符合我们的品牌调性，用户体验反馈非常好。
+                </div>
+                
+                <div class="review-tags">
+                    <div class="review-tag">按时交付</div>
+                    <div class="review-tag">技术实现好</div>
+                </div>
+                
+                <div class="review-actions">
+                    <div class="review-action">
+                        <i class="fas fa-thumbs-up"></i> 有用 (5)
+                    </div>
+                    <div class="review-action">
+                        <i class="fas fa-reply"></i> 回复
+                    </div>
+                    <div class="review-action">
+                        <i class="fas fa-share-alt"></i> 分享
+                    </div>
+                </div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="评价者头像" class="reviewer-avatar">
+                        <div>
+                            <div class="reviewer-name">优选科技 - 项目经理</div>
+                            <div class="review-project">电商平台UI设计</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="review-date">进行中</div>
+                    </div>
+                </div>
+                
+                <div class="review-content">
+                    UI设计风格现代，用户体验流程设计合理。能根据我们的反馈及时调整，沟通效率高。有几个页面的首次设计与我们的期望有差距，但修改后的效果很满意。
+                </div>
+                
+                <div class="review-tags">
+                    <div class="review-tag">沟通流畅</div>
+                    <div class="review-tag">响应迅速</div>
+                </div>
+                
+                <div class="review-actions">
+                    <div class="review-action">
+                        <i class="fas fa-thumbs-up"></i> 有用 (2)
+                    </div>
+                    <div class="review-action">
+                        <i class="fas fa-reply"></i> 回复
+                    </div>
+                    <div class="review-action">
+                        <i class="fas fa-share-alt"></i> 分享
+                    </div>
+                </div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="评价者头像" class="reviewer-avatar">
+                        <div>
+                            <div class="reviewer-name">新锐教育 - 运营经理</div>
+                            <div class="review-project">教育平台设计</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="review-date">2023/07/15</div>
+                    </div>
+                </div>
+                
+                <div class="review-content">
+                    设计能力很强，但项目中期沟通出现了一些问题，导致部分功能的理解有偏差。最终交付晚了3天，但总体质量还是不错的。
+                </div>
+                
+                <div class="review-tags">
+                    <div class="review-tag">专业技能强</div>
+                </div>
+                
+                <div class="review-actions">
+                    <div class="review-action">
+                        <i class="fas fa-thumbs-up"></i> 有用 (1)
+                    </div>
+                    <div class="review-action">
+                        <i class="fas fa-reply"></i> 回复
+                    </div>
+                    <div class="review-action">
+                        <i class="fas fa-share-alt"></i> 分享
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <div style="text-align: center; padding: 10px 0;">
+                <button class="btn btn-outline" style="width: 120px;">加载更多</button>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="tab-bar">
+            <a href="home.html" class="tab-item">
+                <i class="tab-icon fas fa-home"></i>
+                <span class="tab-text">首页</span>
+            </a>
+            <a href="projects.html" class="tab-item">
+                <i class="tab-icon fas fa-briefcase"></i>
+                <span class="tab-text">项目</span>
+            </a>
+            <a href="notifications.html" class="tab-item">
+                <div style="position: relative;">
+                    <i class="tab-icon fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="tab-text">消息</span>
+            </a>
+            <a href="profile.html" class="tab-item">
+                <i class="tab-icon fas fa-user"></i>
+                <span class="tab-text">我的</span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * 筛选选项卡切换
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

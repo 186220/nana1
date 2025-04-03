@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - 项目</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .filter-tabs {
+            display: flex;
+            overflow-x: auto;
+            margin: 0 -16px 15px;
+            padding: 0 16px;
+            white-space: nowrap;
+        }
+        
+        .filter-tab {
+            padding: 8px 16px;
+            margin-right: 10px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark-grey);
+            background-color: var(--grey-color);
+        }
+        
+        .filter-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .project-card {
+            margin-bottom: 16px;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .project-header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--grey-color);
+        }
+        
+        .project-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .project-client {
+            display: flex;
+            align-items: center;
+            color: var(--dark-grey);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .project-client img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .project-content {
+            padding: 15px;
+        }
+        
+        .project-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .project-detail {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: var(--dark-grey);
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .project-timeline {
+            display: flex;
+            margin-top: 15px;
+            position: relative;
+        }
+        
+        .timeline-track {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            height: 3px;
+            background-color: var(--grey-color);
+            z-index: 1;
+        }
+        
+        .timeline-progress {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            height: 3px;
+            background-color: var(--primary-color);
+            z-index: 2;
+        }
+        
+        .timeline-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .step-point {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: white;
+            border: 3px solid var(--grey-color);
+            margin: 0 auto 5px;
+        }
+        
+        .step-label {
+            font-size: 11px;
+            color: var(--dark-grey);
+        }
+        
+        .timeline-step.completed .step-point {
+            border-color: var(--primary-color);
+            background-color: var(--primary-color);
+        }
+        
+        .timeline-step.completed .step-label {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .timeline-step.active .step-point {
+            border-color: var(--primary-color);
+        }
+        
+        .project-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        .action-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .action-outline {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .empty-projects {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--dark-grey);
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: var(--light-color);
+            margin-bottom: 20px;
+        }
+        
+        .empty-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .date-filter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--grey-color);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+        
+        .date-label {
+            font-size: 14px;
+            color: var(--dark-grey);
+        }
+        
+        .date-value {
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .date-value i {
+            margin-left: 5px;
+        }
+        
+        .search-filter {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: none;
+            background-color: var(--grey-color);
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(60, 82, 171, 0.2);
+        }
+        
+        .filter-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <iframe src="components/status_bar.html" frameborder="0" width="100%" height="44px" style="overflow:hidden;"></iframe>
+        
+        <!-- 头部 -->
+        <div class="header">
+            <div class="header-title">项目管理</div>
+            <div>
+                <i class="fas fa-plus" style="font-size: 20px;"></i>
+            </div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content-area">
+            <!-- 搜索栏 -->
+            <div class="search-filter">
+                <input type="text" class="search-input" placeholder="搜索项目名称或客户...">
+                <div class="filter-button">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+            </div>
+            
+            <!-- 时间筛选 -->
+            <div class="date-filter">
+                <div class="date-label">时间范围</div>
+                <div class="date-value">
+                    近3个月 <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            
+            <!-- 状态筛选 -->
+            <div class="filter-tabs">
+                <div class="filter-tab active">全部</div>
+                <div class="filter-tab">进行中</div>
+                <div class="filter-tab">结款中</div>
+                <div class="filter-tab">已完成</div>
+            </div>
+            
+            <!-- 项目列表 -->
+            <div class="project-list">
+                <!-- 项目1 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">电商平台UI设计</div>
+                            <div class="project-client">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="客户头像">
+                                优选科技
+                            </div>
+                        </div>
+                        <div class="badge badge-primary">进行中</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-details">
+                            <div class="project-detail">
+                                <div class="detail-label">项目金额</div>
+                                <div class="detail-value">¥15,000</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="detail-label">开始日期</div>
+                                <div class="detail-value">2023/10/15</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="detail-label">截止日期</div>
+                                <div class="detail-value">2023/11/30</div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-timeline">
+                            <div class="timeline-track"></div>
+                            <div class="timeline-progress" style="width: 50%"></div>
+                            
+                            <div class="timeline-step completed">
+                                <div class="step-point"></div>
+                                <div class="step-label">需求确认</div>
+                            </div>
+                            
+                            <div class="timeline-step active">
+                                <div class="step-point"></div>
+                                <div class="step-label">设计开发</div>
+                            </div>
+                            
+                            <div class="timeline-step">
+                                <div class="step-point"></div>
+                                <div class="step-label">交付验收</div>
+                            </div>
+                            
+                            <div class="timeline-step">
+                                <div class="step-point"></div>
+                                <div class="step-label">项目结款</div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-actions">
+                            <button class="action-btn action-outline">详情</button>
+                            <button class="action-btn action-primary">提交进度</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目2 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">企业官网重构</div>
+                            <div class="project-client">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="客户头像">
+                                星辰传媒
+                            </div>
+                        </div>
+                        <div class="badge badge-warning">结款中</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-details">
+                            <div class="project-detail">
+                                <div class="detail-label">项目金额</div>
+                                <div class="detail-value">¥8,500</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="detail-label">开始日期</div>
+                                <div class="detail-value">2023/09/20</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="detail-label">完成日期</div>
+                                <div class="detail-value">2023/10/25</div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-timeline">
+                            <div class="timeline-track"></div>
+                            <div class="timeline-progress" style="width: 75%"></div>
+                            
+                            <div class="timeline-step completed">
+                                <div class="step-point"></div>
+                                <div class="step-label">需求确认</div>
+                            </div>
+                            
+                            <div class="timeline-step completed">
+                                <div class="step-point"></div>
+                                <div class="step-label">设计开发</div>
+                            </div>
+                            
+                            <div class="timeline-step completed">
+                                <div class="step-point"></div>
+                                <div class="step-label">交付验收</div>
+                            </div>
+                            
+                            <div class="timeline-step active">
+                                <div class="step-point"></div>
+                                <div class="step-label">项目结款</div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-actions">
+                            <button class="action-btn action-outline">查看详情</button>
+                            <button class="action-btn action-primary">催促结款</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目3 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">移动应用开发</div>
+                            <div class="project-client">
+                                <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="客户头像">
+                                创新科技
+                            </div>
+                        </div>
+                        <div class="badge badge-success">已完成</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-details">
+                            <div class="project-detail">
+                                <div class="detail-label">项目金额</div>
+                                <div class="detail-value">¥22,000</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="detail-label">开始日期</div>
+                                <div class="detail-value">2023/08/05</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="detail-label">完成日期</div>
+                                <div class="detail-value">2023/09/30</div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-timeline">
+                            <div class="timeline-track"></div>
+                            <div class="timeline-progress" style="width: 100%"></div>
+                            
+                            <div class="timeline-step completed">
+                                <div class="step-point"></div>
+                                <div class="step-label">需求确认</div>
+                            </div>
+                            
+                            <div class="timeline-step completed">
+                                <div class="step-point"></div>
+                                <div class="step-label">设计开发</div>
+                            </div>
+                            
+                            <div class="timeline-step completed">
+                                <div class="step-point"></div>
+                                <div class="step-label">交付验收</div>
+                            </div>
+                            
+                            <div class="timeline-step completed">
+                                <div class="step-point"></div>
+                                <div class="step-label">项目结款</div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-actions">
+                            <button class="action-btn action-outline">查看详情</button>
+                            <button class="action-btn action-primary">索要评价</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="tab-bar">
+            <a href="home.html" class="tab-item">
+                <i class="tab-icon fas fa-home"></i>
+                <span class="tab-text">首页</span>
+            </a>
+            <a href="projects.html" class="tab-item tab-active">
+                <i class="tab-icon fas fa-briefcase"></i>
+                <span class="tab-text">项目</span>
+            </a>
+            <a href="notifications.html" class="tab-item">
+                <div style="position: relative;">
+                    <i class="tab-icon fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="tab-text">消息</span>
+            </a>
+            <a href="profile.html" class="tab-item">
+                <i class="tab-icon fas fa-user"></i>
+                <span class="tab-text">我的</span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * 筛选选项卡切换
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
