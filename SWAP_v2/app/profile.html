@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - 个人中心</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-header {
+            margin: 15px 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 3px solid white;
+            box-shadow: var(--shadow);
+        }
+        
+        .profile-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .profile-position {
+            font-size: 14px;
+            color: var(--dark-grey);
+            margin-bottom: 10px;
+        }
+        
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .profile-tag {
+            background-color: var(--grey-color);
+            color: var(--dark-grey);
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-weight: 500;
+        }
+        
+        .profile-stats {
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        
+        .stats-item {
+            text-align: center;
+        }
+        
+        .stats-value {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .stats-label {
+            font-size: 12px;
+            color: var(--dark-grey);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            flex: 1;
+            background-color: white;
+            border: 1px solid var(--grey-color);
+            border-radius: 8px;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark-grey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .action-button i {
+            font-size: 16px;
+        }
+        
+        .action-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 25px 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-action {
+            font-size: 13px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .function-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .function-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-size: 22px;
+        }
+        
+        .function-name {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .module-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .module-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .module-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .wallet-balance {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 10px 0 15px;
+        }
+        
+        .balance-desc {
+            color: var(--dark-grey);
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        
+        .action-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-row .action-button {
+            padding: 8px 0;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--grey-color);
+        }
+        
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--dark-grey);
+        }
+        
+        .stat-value {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .account-menu {
+            margin-top: 25px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--grey-color);
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--grey-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+        
+        .menu-text {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .menu-arrow {
+            color: var(--dark-grey);
+        }
+        
+        .promotion-banner {
+            background: linear-gradient(to right, #3C52AB, #5D78D3);
+            border-radius: 12px;
+            padding: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .promotion-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+        }
+        
+        .promotion-content {
+            flex: 1;
+        }
+        
+        .promotion-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .promotion-desc {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .promotion-arrow {
+            padding: 5px;
+        }
+
+        /* 状态栏样式 */
+        .status-bar {
+            height: 44px;
+            background-color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .status-bar-time {
+            font-weight: 600;
+        }
+        
+        .status-bar-icons {
+            display: flex;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <div class="status-bar-time">9:41</div>
+            <div class="status-bar-icons">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
+            </div>
+        </div>
+        
+        <!-- 头部 -->
+        <div class="header">
+            <div class="header-title">个人中心</div>
+            <div>
+                <i class="fas fa-cog" style="font-size: 20px;"></i>
+            </div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content-area">
+            <!-- 个人信息头部 -->
+            <div class="profile-header">
+                <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="用户头像" class="profile-avatar">
+                <div class="profile-name">张明</div>
+                <div class="profile-position">UI/UX设计师 & 前端开发</div>
+                <div class="profile-tags">
+                    <div class="profile-tag">设计</div>
+                    <div class="profile-tag">前端开发</div>
+                    <div class="profile-tag">SWAP认证</div>
+                </div>
+                
+                <div class="action-buttons">
+                    <div class="action-button">
+                        <i class="fas fa-edit"></i>
+                        编辑资料
+                    </div>
+                    <div class="action-button action-primary">
+                        <i class="fas fa-share-alt"></i>
+                        分享名片
+                    </div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stats-item">
+                        <div class="stats-value">4.8</div>
+                        <div class="stats-label">综合评分</div>
+                    </div>
+                    <div class="stats-item">
+                        <div class="stats-value">36</div>
+                        <div class="stats-label">累计评价</div>
+                    </div>
+                    <div class="stats-item">
+                        <div class="stats-value">48</div>
+                        <div class="stats-label">完成项目</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能模块 -->
+            <div class="section-title">常用功能</div>
+            <div class="function-grid">
+                <div class="function-item">
+                    <div class="function-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="function-name">我的钱包</div>
+                </div>
+                
+                <div class="function-item">
+                    <div class="function-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="function-name">发票管理</div>
+                </div>
+                
+                <div class="function-item">
+                    <div class="function-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="function-name">我的评价</div>
+                </div>
+                
+                <div class="function-item">
+                    <div class="function-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="function-name">数据统计</div>
+                </div>
+                
+                <div class="function-item">
+                    <div class="function-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="function-name">收藏项目</div>
+                </div>
+                
+                <div class="function-item">
+                    <div class="function-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="function-name">工作日历</div>
+                </div>
+                
+                <div class="function-item">
+                    <div class="function-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="function-name">我的客户</div>
+                </div>
+                
+                <div class="function-item">
+                    <div class="function-icon">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                    <div class="function-name">更多</div>
+                </div>
+            </div>
+            
+            <!-- 推广横幅 -->
+            <div class="promotion-banner">
+                <div class="promotion-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div class="promotion-content">
+                    <div class="promotion-title">成为SWAP认证设计师</div>
+                    <div class="promotion-desc">享受更多曝光和高质量项目机会</div>
+                </div>
+                <div class="promotion-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            
+            <!-- 我的钱包 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="module-title">我的钱包</div>
+                </div>
+                
+                <div class="wallet-balance">￥15,632.00</div>
+                <div class="balance-desc">账户余额 (可提现¥15,532.00)</div>
+                
+                <div class="action-row">
+                    <div class="action-button">
+                        <i class="fas fa-arrow-down"></i>
+                        提现
+                    </div>
+                    <div class="action-button">
+                        <i class="fas fa-exchange-alt"></i>
+                        交易记录
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 工作统计 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="module-title">工作统计</div>
+                </div>
+                
+                <div class="stat-row">
+                    <div class="stat-label">本月收入</div>
+                    <div class="stat-value">￥8,500.00</div>
+                </div>
+                
+                <div class="stat-row">
+                    <div class="stat-label">进行中项目</div>
+                    <div class="stat-value">3个</div>
+                </div>
+                
+                <div class="stat-row">
+                    <div class="stat-label">本月完成项目</div>
+                    <div class="stat-value">2个</div>
+                </div>
+                
+                <div class="stat-row">
+                    <div class="stat-label">待收款金额</div>
+                    <div class="stat-value">￥4,250.00</div>
+                </div>
+            </div>
+            
+            <!-- 账户管理 -->
+            <div class="section-title">账户管理</div>
+            <div class="account-menu">
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="menu-text">账号安全</div>
+                    <div class="menu-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="menu-text">消息设置</div>
+                    <div class="menu-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="menu-text">支付方式</div>
+                    <div class="menu-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="menu-text">联系客服</div>
+                    <div class="menu-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="menu-text">帮助中心</div>
+                    <div class="menu-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航 -->
+        <div class="tab-bar">
+            <a href="home.html" class="tab-item">
+                <i class="tab-icon fas fa-home"></i>
+                <span class="tab-text">首页</span>
+            </a>
+            <a href="projects.html" class="tab-item">
+                <i class="tab-icon fas fa-briefcase"></i>
+                <span class="tab-text">项目</span>
+            </a>
+            <a href="notifications.html" class="tab-item">
+                <div style="position: relative;">
+                    <i class="tab-icon fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="tab-text">消息</span>
+            </a>
+            <a href="profile.html" class="tab-item tab-active">
+                <i class="tab-icon fas fa-user"></i>
+                <span class="tab-text">我的</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html> 

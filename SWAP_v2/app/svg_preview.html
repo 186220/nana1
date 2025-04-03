@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - SVG原型图预览</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            padding: 20px;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: var(--dark-grey);
+            font-size: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .canvas-container {
+            display: none;
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .preview-item {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .preview-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .preview-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .preview-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .preview-action {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .preview-action:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .preview-frame {
+            flex: 1;
+            min-height: 500px;
+            border: none;
+        }
+        
+        .svg-container {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .svg-code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .svg-code-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .copy-btn {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .svg-code {
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .control-panel {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .control-heading {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .control-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .control-label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: var(--dark-grey);
+        }
+        
+        .control-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .control-btn {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .control-btn:hover {
+            background-color: #2c3e80;
+        }
+        
+        .btn-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+            gap: 10px;
+        }
+        
+        .btn-secondary {
+            background-color: var(--grey-color);
+            color: var(--dark-grey);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SWAP - SVG原型图预览器</h1>
+            <p>本工具可以将HTML原型转换为高质量的SVG矢量图，便于文档和演示使用。保留原有样式和布局，同时利用SVG的优势提供清晰的矢量图形。</p>
+        </div>
+        
+        <div class="control-panel">
+            <div class="control-heading">导出设置</div>
+            <div class="control-grid">
+                <div class="control-item">
+                    <label class="control-label">宽度 (px)</label>
+                    <input type="number" class="control-input" id="svgWidth" value="390">
+                </div>
+                <div class="control-item">
+                    <label class="control-label">高度 (px)</label>
+                    <input type="number" class="control-input" id="svgHeight" value="844">
+                </div>
+                <div class="control-item">
+                    <label class="control-label">SVG文件前缀</label>
+                    <input type="text" class="control-input" id="filePrefix" value="swap_app_">
+                </div>
+                <div class="control-item">
+                    <label class="control-label">缩放因子</label>
+                    <input type="number" class="control-input" id="scaleFactor" value="1" step="0.1" min="0.5" max="3">
+                </div>
+            </div>
+            <div class="btn-row">
+                <div class="control-btn btn-secondary" id="resetSettings">重置设置</div>
+                <div class="control-btn" id="generateAll">生成所有SVG</div>
+            </div>
+        </div>
+        
+        <div class="preview-grid">
+            <div class="preview-item">
+                <div class="preview-header">
+                    <div class="preview-title">首页</div>
+                    <div class="preview-actions">
+                        <div class="preview-action" onclick="generateSVG('homeFrame', 'home')">
+                            <i class="fas fa-file-export"></i>
+                        </div>
+                    </div>
+                </div>
+                <iframe src="home.html" class="preview-frame" id="homeFrame"></iframe>
+                <div class="svg-container" id="homeSvgContainer">
+                    <div class="svg-code-header">
+                        <div class="svg-code-title">SVG代码</div>
+                        <div class="copy-btn" onclick="copySVG('homeSvgCode')">复制代码</div>
+                    </div>
+                    <div class="svg-code" id="homeSvgCode"></div>
+                </div>
+            </div>
+            
+            <div class="preview-item">
+                <div class="preview-header">
+                    <div class="preview-title">项目</div>
+                    <div class="preview-actions">
+                        <div class="preview-action" onclick="generateSVG('projectsFrame', 'projects')">
+                            <i class="fas fa-file-export"></i>
+                        </div>
+                    </div>
+                </div>
+                <iframe src="projects.html" class="preview-frame" id="projectsFrame"></iframe>
+                <div class="svg-container" id="projectsSvgContainer">
+                    <div class="svg-code-header">
+                        <div class="svg-code-title">SVG代码</div>
+                        <div class="copy-btn" onclick="copySVG('projectsSvgCode')">复制代码</div>
+                    </div>
+                    <div class="svg-code" id="projectsSvgCode"></div>
+                </div>
+            </div>
+            
+            <div class="preview-item">
+                <div class="preview-header">
+                    <div class="preview-title">消息</div>
+                    <div class="preview-actions">
+                        <div class="preview-action" onclick="generateSVG('notificationsFrame', 'notifications')">
+                            <i class="fas fa-file-export"></i>
+                        </div>
+                    </div>
+                </div>
+                <iframe src="notifications.html" class="preview-frame" id="notificationsFrame"></iframe>
+                <div class="svg-container" id="notificationsSvgContainer">
+                    <div class="svg-code-header">
+                        <div class="svg-code-title">SVG代码</div>
+                        <div class="copy-btn" onclick="copySVG('notificationsSvgCode')">复制代码</div>
+                    </div>
+                    <div class="svg-code" id="notificationsSvgCode"></div>
+                </div>
+            </div>
+            
+            <div class="preview-item">
+                <div class="preview-header">
+                    <div class="preview-title">我的</div>
+                    <div class="preview-actions">
+                        <div class="preview-action" onclick="generateSVG('profileFrame', 'profile')">
+                            <i class="fas fa-file-export"></i>
+                        </div>
+                    </div>
+                </div>
+                <iframe src="profile.html" class="preview-frame" id="profileFrame"></iframe>
+                <div class="svg-container" id="profileSvgContainer">
+                    <div class="svg-code-header">
+                        <div class="svg-code-title">SVG代码</div>
+                        <div class="copy-btn" onclick="copySVG('profileSvgCode')">复制代码</div>
+                    </div>
+                    <div class="svg-code" id="profileSvgCode"></div>
+                </div>
+            </div>
+            
+            <div class="preview-item">
+                <div class="preview-header">
+                    <div class="preview-title">个人名片分享</div>
+                    <div class="preview-actions">
+                        <div class="preview-action" onclick="generateSVG('profileShareFrame', 'profile_share')">
+                            <i class="fas fa-file-export"></i>
+                        </div>
+                    </div>
+                </div>
+                <iframe src="profile_share.html" class="preview-frame" id="profileShareFrame"></iframe>
+                <div class="svg-container" id="profileShareSvgContainer">
+                    <div class="svg-code-header">
+                        <div class="svg-code-title">SVG代码</div>
+                        <div class="copy-btn" onclick="copySVG('profileShareSvgCode')">复制代码</div>
+                    </div>
+                    <div class="svg-code" id="profileShareSvgCode"></div>
+                </div>
+            </div>
+            
+            <div class="preview-item">
+                <div class="preview-header">
+                    <div class="preview-title">评价系统</div>
+                    <div class="preview-actions">
+                        <div class="preview-action" onclick="generateSVG('reviewsFrame', 'reviews')">
+                            <i class="fas fa-file-export"></i>
+                        </div>
+                    </div>
+                </div>
+                <iframe src="reviews.html" class="preview-frame" id="reviewsFrame"></iframe>
+                <div class="svg-container" id="reviewsSvgContainer">
+                    <div class="svg-code-header">
+                        <div class="svg-code-title">SVG代码</div>
+                        <div class="copy-btn" onclick="copySVG('reviewsSvgCode')">复制代码</div>
+                    </div>
+                    <div class="svg-code" id="reviewsSvgCode"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="tempCanvas"></canvas>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script>
+        // 全局状态
+        const state = {
+            debug: true,
+            isGenerating: false
+        };
+        
+        /**
+         * 调试日志
+         * @param {string} message - 日志消息
+         * @param {any} data - 附加数据
+         */
+        function log(message, data) {
+            if (state.debug) {
+                if (data) {
+                    console.log(`[SVG导出器] ${message}`, data);
+                } else {
+                    console.log(`[SVG导出器] ${message}`);
+                }
+            }
+        }
+        
+        /**
+         * 显示状态消息
+         * @param {string} message - 显示的消息
+         * @param {string} type - 消息类型（success, error, info）
+         */
+        function showMessage(message, type = 'info') {
+            // 检查是否已存在消息容器
+            let msgContainer = document.querySelector('.message-container');
+            
+            if (!msgContainer) {
+                // 创建消息容器
+                msgContainer = document.createElement('div');
+                msgContainer.className = 'message-container';
+                msgContainer.style.position = 'fixed';
+                msgContainer.style.bottom = '20px';
+                msgContainer.style.left = '50%';
+                msgContainer.style.transform = 'translateX(-50%)';
+                msgContainer.style.zIndex = '9999';
+                document.body.appendChild(msgContainer);
+            }
+            
+            // 创建消息元素
+            const msgElement = document.createElement('div');
+            msgElement.className = `message message-${type}`;
+            msgElement.textContent = message;
+            
+            // 设置样式
+            msgElement.style.padding = '10px 20px';
+            msgElement.style.borderRadius = '4px';
+            msgElement.style.marginBottom = '10px';
+            msgElement.style.backgroundColor = type === 'error' ? '#f44336' : 
+                                             type === 'success' ? '#4CAF50' : '#3C52AB';
+            msgElement.style.color = 'white';
+            msgElement.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+            
+            // 添加到容器
+            msgContainer.appendChild(msgElement);
+            
+            // 自动移除
+            setTimeout(() => {
+                msgElement.style.opacity = '0';
+                msgElement.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    msgContainer.removeChild(msgElement);
+                }, 500);
+            }, 3000);
+        }
+        
+        /**
+         * 生成SVG文件
+         * @param {string} iframeId - iframe的ID
+         * @param {string} pageName - 页面名称
+         */
+        function generateSVG(iframeId, pageName) {
+            // 防止重复点击
+            if (state.isGenerating) {
+                showMessage('正在生成SVG，请稍候...', 'info');
+                return;
+            }
+            
+            state.isGenerating = true;
+            showMessage(`开始生成 ${pageName} 的SVG...`, 'info');
+            log(`开始为页面 ${pageName} 生成SVG`);
+            
+            try {
+                const iframe = document.getElementById(iframeId);
+                if (!iframe) {
+                    throw new Error(`找不到ID为 ${iframeId} 的iframe`);
+                }
+                
+                // 检查iframe是否已加载
+                if (!iframe.contentDocument || !iframe.contentWindow) {
+                    throw new Error('iframe内容未加载或无法访问，可能是跨域问题');
+                }
+                
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                const container = iframeDoc.querySelector('.app-container');
+                
+                if (!container) {
+                    throw new Error('无法找到应用容器元素(.app-container)');
+                }
+                
+                const width = parseInt(document.getElementById('svgWidth').value);
+                const height = parseInt(document.getElementById('svgHeight').value);
+                const scaleFactor = parseFloat(document.getElementById('scaleFactor').value);
+                const filePrefix = document.getElementById('filePrefix').value;
+                
+                log('配置信息', { width, height, scaleFactor, filePrefix });
+                log('开始转换HTML到Canvas');
+                
+                // 使用html2canvas将内容转换为canvas
+                html2canvas(container, {
+                    scale: scaleFactor,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: state.debug,
+                    onclone: function(clonedDoc) {
+                        log('文档已克隆，准备渲染');
+                        // 在克隆的文档中应用任何必要的修复
+                        const clonedContainer = clonedDoc.querySelector('.app-container');
+                        if (clonedContainer) {
+                            // 确保所有图像在渲染前已加载
+                            const images = clonedContainer.querySelectorAll('img');
+                            images.forEach(img => {
+                                if (!img.complete) {
+                                    log(`等待图片加载: ${img.src}`);
+                                    img.src = img.src; // 重新触发加载
+                                }
+                            });
+                        }
+                    }
+                }).then(canvas => {
+                    log('Canvas生成成功', { width: canvas.width, height: canvas.height });
+                    
+                    // 将canvas放入临时容器
+                    const tempCanvas = document.getElementById('tempCanvas');
+                    tempCanvas.width = canvas.width;
+                    tempCanvas.height = canvas.height;
+                    const ctx = tempCanvas.getContext('2d');
+                    ctx.drawImage(canvas, 0, 0);
+                    
+                    // 将canvas转换为dataURL
+                    const dataURL = tempCanvas.toDataURL('image/png');
+                    log('Canvas已转换为数据URL', { dataURLLength: dataURL.length });
+                    
+                    // 创建SVG内容
+                    const svgContent = createSVGContent(pageName, dataURL, width, height);
+                    
+                    // 显示SVG内容
+                    const svgCodeElement = document.getElementById(`${pageName}SvgCode`);
+                    if (svgCodeElement) {
+                        svgCodeElement.textContent = svgContent;
+                        
+                        // 显示SVG容器
+                        const svgContainer = document.getElementById(`${pageName}SvgContainer`);
+                        if (svgContainer) {
+                            svgContainer.style.display = 'block';
+                        }
+                    } else {
+                        log(`找不到SVG代码元素: ${pageName}SvgCode`);
+                    }
+                    
+                    // 创建下载链接
+                    createDownloadLink(svgContent, `${filePrefix}${pageName}.svg`);
+                    
+                    showMessage(`${pageName} SVG生成成功！`, 'success');
+                    state.isGenerating = false;
+                }).catch(error => {
+                    log('HTML2Canvas错误', error);
+                    showMessage(`Canvas渲染失败: ${error.message}`, 'error');
+                    state.isGenerating = false;
+                });
+            } catch (error) {
+                log('SVG生成过程中发生错误', error);
+                showMessage(`生成失败: ${error.message}`, 'error');
+                state.isGenerating = false;
+            }
+        }
+        
+        /**
+         * 创建SVG内容
+         * @param {string} pageName - 页面名称
+         * @param {string} dataURL - 页面图像的dataURL
+         * @param {number} width - SVG宽度
+         * @param {number} height - SVG高度
+         * @returns {string} SVG内容
+         */
+        function createSVGContent(pageName, dataURL, width, height) {
+            const pageInfo = {
+                home: '首页',
+                projects: '项目',
+                notifications: '消息',
+                profile: '我的',
+                reviews: '评价系统',
+                profile_share: '个人名片分享'
+            };
+            
+            const title = pageInfo[pageName] || pageName;
+            
+            return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>SWAP应用 - ${title}</title>
+    <desc>SWAP自由职业者接单管理应用 - ${title}页面原型图</desc>
+    <defs>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+            
+            .page-frame {
+                fill: none;
+                stroke: #ddd;
+                stroke-width: 1;
+            }
+            
+            .title-text {
+                font-family: 'Inter', sans-serif;
+                font-size: 12px;
+                font-weight: 500;
+                fill: #666;
+            }
+        </style>
+    </defs>
+    
+    <!-- 背景 -->
+    <rect width="100%" height="100%" fill="#ffffff"/>
+    
+    <!-- 应用截图 -->
+    <image x="0" y="0" width="${width}" height="${height}" xlink:href="${dataURL}"/>
+    
+    <!-- 设备框架 -->
+    <rect class="page-frame" x="0" y="0" width="${width}" height="${height}" rx="40" ry="40"/>
+    
+    <!-- 页面标题 -->
+    <text class="title-text" x="${width / 2}" y="${height - 15}" text-anchor="middle">SWAP - ${title}</text>
+</svg>`;
+        }
+        
+        /**
+         * 创建下载链接
+         * @param {string} svgContent - SVG内容
+         * @param {string} filename - 文件名
+         */
+        function createDownloadLink(svgContent, filename) {
+            const link = document.createElement('a');
+            link.href = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgContent);
+            link.download = filename;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        /**
+         * 复制SVG代码
+         * @param {string} elementId - SVG代码元素ID
+         */
+        function copySVG(elementId) {
+            const svgCode = document.getElementById(elementId);
+            const textArea = document.createElement('textarea');
+            textArea.value = svgCode.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            alert('SVG代码已复制到剪贴板');
+        }
+        
+        /**
+         * 生成所有SVG
+         */
+        function generateAllSVGs() {
+            const pages = [
+                { frameId: 'homeFrame', name: 'home' },
+                { frameId: 'projectsFrame', name: 'projects' },
+                { frameId: 'notificationsFrame', name: 'notifications' },
+                { frameId: 'profileFrame', name: 'profile' },
+                { frameId: 'profileShareFrame', name: 'profile_share' },
+                { frameId: 'reviewsFrame', name: 'reviews' }
+            ];
+            
+            let index = 0;
+            
+            function generateNext() {
+                if (index < pages.length) {
+                    const page = pages[index];
+                    generateSVG(page.frameId, page.name);
+                    index++;
+                    setTimeout(generateNext, 1000);
+                }
+            }
+            
+            generateNext();
+        }
+        
+        /**
+         * 重置设置
+         */
+        function resetSettings() {
+            document.getElementById('svgWidth').value = 390;
+            document.getElementById('svgHeight').value = 844;
+            document.getElementById('filePrefix').value = 'swap_app_';
+            document.getElementById('scaleFactor').value = 1;
+        }
+        
+        // 绑定事件处理函数
+        document.addEventListener('DOMContentLoaded', function() {
+            log('页面已加载，初始化SVG生成器');
+            
+            const generateAllBtn = document.getElementById('generateAll');
+            if (generateAllBtn) {
+                generateAllBtn.addEventListener('click', generateAllSVGs);
+                log('全部生成按钮已绑定');
+            }
+            
+            const resetBtn = document.getElementById('resetSettings');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', resetSettings);
+                log('重置按钮已绑定');
+            }
+            
+            // 加载检查
+            setTimeout(function() {
+                // 检查html2canvas是否正确加载
+                if (typeof html2canvas !== 'function') {
+                    showMessage('警告: html2canvas库未正确加载，导出功能可能无法使用', 'error');
+                    log('html2canvas库未加载');
+                } else {
+                    log('html2canvas库已加载');
+                }
+                
+                // 检查iframe是否已加载
+                const frames = document.querySelectorAll('.preview-frame');
+                frames.forEach(frame => {
+                    try {
+                        const doc = frame.contentDocument || frame.contentWindow.document;
+                        if (doc) {
+                            const container = doc.querySelector('.app-container');
+                            if (!container) {
+                                log(`警告: iframe ${frame.id} 中没有找到 .app-container 元素`);
+                            }
+                        }
+                    } catch (e) {
+                        log(`无法访问iframe ${frame.id} 的内容，可能是跨域问题`, e);
+                        showMessage(`警告: 由于浏览器的安全限制，无法访问iframe内容。请使用本地服务器打开此页面。`, 'error');
+                    }
+                });
+            }, 2000);
+        });
+    </script>
+</body>
+</html> 

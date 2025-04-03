@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - SVG导出工具</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .export-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .title {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+        
+        .export-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .export-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .preview {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        #svgOutput {
+            display: none;
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="export-container">
+        <h1 class="title">SWAP - SVG原型图导出工具</h1>
+        
+        <div class="export-grid">
+            <div class="export-card">
+                <h2 class="card-title">首页</h2>
+                <iframe src="home.html" class="preview" id="homePreview"></iframe>
+                <div class="btn-container">
+                    <div class="btn btn-primary" onclick="exportToSVG('homePreview', 'home_svg')">导出为SVG</div>
+                    <a href="#" id="homeDownload" class="btn btn-outline" style="display:none;">下载SVG</a>
+                </div>
+            </div>
+            
+            <div class="export-card">
+                <h2 class="card-title">项目</h2>
+                <iframe src="projects.html" class="preview" id="projectsPreview"></iframe>
+                <div class="btn-container">
+                    <div class="btn btn-primary" onclick="exportToSVG('projectsPreview', 'projects_svg')">导出为SVG</div>
+                    <a href="#" id="projectsDownload" class="btn btn-outline" style="display:none;">下载SVG</a>
+                </div>
+            </div>
+            
+            <div class="export-card">
+                <h2 class="card-title">消息</h2>
+                <iframe src="notifications.html" class="preview" id="notificationsPreview"></iframe>
+                <div class="btn-container">
+                    <div class="btn btn-primary" onclick="exportToSVG('notificationsPreview', 'notifications_svg')">导出为SVG</div>
+                    <a href="#" id="notificationsDownload" class="btn btn-outline" style="display:none;">下载SVG</a>
+                </div>
+            </div>
+            
+            <div class="export-card">
+                <h2 class="card-title">我的</h2>
+                <iframe src="profile.html" class="preview" id="profilePreview"></iframe>
+                <div class="btn-container">
+                    <div class="btn btn-primary" onclick="exportToSVG('profilePreview', 'profile_svg')">导出为SVG</div>
+                    <a href="#" id="profileDownload" class="btn btn-outline" style="display:none;">下载SVG</a>
+                </div>
+            </div>
+        </div>
+        
+        <pre id="svgOutput"></pre>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script>
+        /**
+         * 将HTML内容导出为SVG
+         * @param {string} iframeId - iframe元素的ID
+         * @param {string} filename - 导出文件名
+         */
+        function exportToSVG(iframeId, filename) {
+            const iframe = document.getElementById(iframeId);
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const container = iframeDoc.querySelector('.app-container');
+            
+            if (!container) {
+                alert('无法找到应用容器元素');
+                return;
+            }
+            
+            // 使用html2canvas将内容转换为canvas
+            html2canvas(container).then(canvas => {
+                // 创建SVG元素
+                const svgData = `
+<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
+    <foreignObject width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;">
+            <style>
+                ${Array.from(iframeDoc.styleSheets)
+                    .filter(sheet => !sheet.href || sheet.href.startsWith(window.location.origin))
+                    .map(sheet => {
+                        try {
+                            return Array.from(sheet.cssRules)
+                                .map(rule => rule.cssText)
+                                .join('\n');
+                        } catch (e) {
+                            console.warn('无法访问样式表规则', e);
+                            return '';
+                        }
+                    })
+                    .join('\n')}
+            </style>
+            ${container.outerHTML}
+        </div>
+    </foreignObject>
+</svg>`;
+                
+                // 显示下载链接
+                const downloadBtn = document.getElementById(`${iframeId.replace('Preview', 'Download')}`);
+                downloadBtn.style.display = 'block';
+                downloadBtn.href = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData);
+                downloadBtn.download = `${filename}.svg`;
+                
+                // 在输出区域显示SVG代码
+                const output = document.getElementById('svgOutput');
+                output.style.display = 'block';
+                output.textContent = svgData;
+                
+                // 生成SVG文件
+                generateSVGFile(svgData, filename);
+            });
+        }
+        
+        /**
+         * 生成SVG文件并保存
+         * @param {string} svgData - SVG内容
+         * @param {string} filename - 文件名
+         */
+        function generateSVGFile(svgData, filename) {
+            // 在实际环境中，这里可以实现服务器端保存文件
+            // 由于浏览器限制，无法直接保存文件到服务器，这里只提供下载功能
+            console.log(`正在生成SVG文件: ${filename}.svg`);
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - 消息</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .notification-tabs {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid var(--grey-color);
+            margin: 0 -16px 10px;
+            padding: 0 16px;
+        }
+        
+        .notification-tab {
+            padding: 15px 5px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--dark-grey);
+            position: relative;
+        }
+        
+        .notification-tab.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .notification-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .notification-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--grey-color);
+        }
+        
+        .notification-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .notification-icon.system {
+            background-color: #3C52AB;
+        }
+        
+        .notification-icon.project {
+            background-color: #4CAF50;
+        }
+        
+        .notification-icon.payment {
+            background-color: #FF9800;
+        }
+        
+        .notification-icon.message {
+            background-color: #2196F3;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .notification-description {
+            font-size: 14px;
+            color: var(--dark-grey);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .notification-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--dark-grey);
+        }
+        
+        .notification-badge {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+        
+        .notification-time {
+            color: var(--dark-grey);
+            font-size: 13px;
+        }
+        
+        .notification-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .notification-button {
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 6px;
+            text-align: center;
+            background-color: var(--grey-color);
+            color: var(--dark-grey);
+        }
+        
+        .notification-button.primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .notification-date-divider {
+            font-size: 14px;
+            color: var(--dark-grey);
+            padding: 10px 0;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        
+        .empty-notifications {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--dark-grey);
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: var(--grey-color);
+            margin-bottom: 20px;
+        }
+        
+        .empty-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* 状态栏样式 */
+        .status-bar {
+            height: 44px;
+            background-color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .status-bar-time {
+            font-weight: 600;
+        }
+        
+        .status-bar-icons {
+            display: flex;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <div class="status-bar-time">9:41</div>
+            <div class="status-bar-icons">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
+            </div>
+        </div>
+        
+        <!-- 顶部导航栏 -->
+        <div class="header">
+            <div></div>
+            <div class="header-title">消息中心</div>
+            <i class="fas fa-ellipsis-h" style="font-size: 20px;"></i>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content-area">
+            <!-- 消息分类标签 -->
+            <div class="notification-tabs">
+                <div class="notification-tab active">全部</div>
+                <div class="notification-tab">系统</div>
+                <div class="notification-tab">项目</div>
+                <div class="notification-tab">私信</div>
+            </div>
+            
+            <!-- 消息列表 -->
+            <div class="notification-list">
+                <!-- 今天 -->
+                <div class="notification-date-divider">今天</div>
+                
+                <!-- 系统消息 -->
+                <div class="notification-item">
+                    <div class="notification-icon system">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>系统公告</span>
+                            <div class="notification-badge"></div>
+                        </div>
+                        <div class="notification-description">SWAP平台将于明晚22:00-24:00进行系统升级维护，期间部分功能可能无法正常使用。</div>
+                        <div class="notification-meta">
+                            <div>系统消息</div>
+                            <div class="notification-time">10分钟前</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目消息 -->
+                <div class="notification-item">
+                    <div class="notification-icon project">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>项目进度更新</span>
+                            <div class="notification-badge"></div>
+                        </div>
+                        <div class="notification-description">您的项目"电商APP UI设计"已进入验收阶段，客户已审核设计稿，请查看反馈。</div>
+                        <div class="notification-meta">
+                            <div>项目消息</div>
+                            <div class="notification-time">1小时前</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="notification-item">
+                    <div class="notification-icon payment">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>收款成功</span>
+                        </div>
+                        <div class="notification-description">您的项目"企业官网重构"已收到尾款 ¥4,250.00，请查收并确认。</div>
+                        <div class="notification-meta">
+                            <div>支付消息</div>
+                            <div class="notification-time">5小时前</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 昨天 -->
+                <div class="notification-date-divider">昨天</div>
+                
+                <!-- 私信消息 -->
+                <div class="notification-item">
+                    <div class="notification-icon message">
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>客户留言</span>
+                        </div>
+                        <div class="notification-description">李先生: 你好，我想咨询一下移动应用UI设计的相关问题，方便的话可以联系我吗？</div>
+                        <div class="notification-buttons">
+                            <div class="notification-button">拒绝</div>
+                            <div class="notification-button primary">回复</div>
+                        </div>
+                        <div class="notification-meta">
+                            <div>私信消息</div>
+                            <div class="notification-time">昨天 15:30</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 系统消息 -->
+                <div class="notification-item">
+                    <div class="notification-icon system">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>安全提醒</span>
+                        </div>
+                        <div class="notification-description">您的账号在新设备上登录，如非本人操作，请立即修改密码。</div>
+                        <div class="notification-meta">
+                            <div>系统消息</div>
+                            <div class="notification-time">昨天 10:15</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 更早 -->
+                <div class="notification-date-divider">更早</div>
+                
+                <!-- 项目消息 -->
+                <div class="notification-item">
+                    <div class="notification-icon project">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>收到好评</span>
+                        </div>
+                        <div class="notification-description">您的客户"创新科技"对您的项目"移动应用开发"给予了5星好评，点击查看详情。</div>
+                        <div class="notification-meta">
+                            <div>项目消息</div>
+                            <div class="notification-time">10-15</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 系统消息 -->
+                <div class="notification-item">
+                    <div class="notification-icon system">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>活动通知</span>
+                        </div>
+                        <div class="notification-description">恭喜您获得新人福利券，可在接单时抵扣平台服务费，请在"我的-优惠券"中查看。</div>
+                        <div class="notification-meta">
+                            <div>系统消息</div>
+                            <div class="notification-time">10-12</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航 -->
+        <div class="tab-bar">
+            <a href="home.html" class="tab-item">
+                <i class="fas fa-home"></i>
+                <span>首页</span>
+            </a>
+            <a href="projects.html" class="tab-item">
+                <i class="fas fa-briefcase"></i>
+                <span>项目</span>
+            </a>
+            <a href="notifications.html" class="tab-item active">
+                <i class="fas fa-bell"></i>
+                <span>消息</span>
+            </a>
+            <a href="profile.html" class="tab-item">
+                <i class="fas fa-user"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * 初始化消息页面
+         * @description 为消息页面的标签切换和按钮添加交互事件
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            // 消息标签切换
+            const tabs = document.querySelectorAll('.notification-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    // 这里可以添加实际的筛选逻辑
+                });
+            });
+            
+            // 回复按钮点击事件
+            const replyButtons = document.querySelectorAll('.notification-button.primary');
+            
+            replyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 这里可以添加回复逻辑
+                    console.log('回复按钮点击');
+                });
+            });
+            
+            // 拒绝按钮点击事件
+            const rejectButtons = document.querySelectorAll('.notification-button:not(.primary)');
+            
+            rejectButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 这里可以添加拒绝逻辑
+                    const parent = this.closest('.notification-item');
+                    parent.style.opacity = '0.6';
+                    this.parentNode.style.display = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

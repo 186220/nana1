@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - 首页</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .welcome-banner {
+            background: linear-gradient(135deg, #3C52AB 0%, #4D67C7 100%);
+            border-radius: 12px;
+            padding: 16px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .welcome-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .user-status {
+            font-size: 12px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .welcome-greeting {
+            margin-bottom: 10px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .quick-actions {
+            margin-bottom: 20px;
+        }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .action-item {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 15px 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+        
+        .action-label {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-all {
+            font-size: 12px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .project-list {
+            margin-bottom: 20px;
+        }
+        
+        .project-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .project-info {
+            flex: 1;
+        }
+        
+        .project-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .project-client {
+            font-size: 14px;
+            color: var(--dark-grey);
+            display: flex;
+            align-items: center;
+        }
+        
+        .client-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .project-badge {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+            align-self: flex-start;
+        }
+        
+        .project-badge.urgent {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #F44336;
+        }
+        
+        .project-details {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+        
+        .project-detail {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: var(--dark-grey);
+            margin-bottom: 3px;
+        }
+        
+        .detail-value {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .project-progress {
+            margin-bottom: 5px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .progress-label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .progress-value {
+            font-size: 13px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: var(--grey-color);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        .project-due {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: var(--dark-grey);
+            margin-top: 10px;
+        }
+        
+        .due-urgent {
+            color: #F44336;
+        }
+        
+        .due-icon {
+            margin-right: 5px;
+        }
+        
+        .announcement-list {
+            margin-bottom: 20px;
+        }
+        
+        .announcement-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .announcement-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .announcement-date {
+            font-size: 12px;
+            color: var(--dark-grey);
+        }
+        
+        .announcement-content {
+            font-size: 14px;
+            color: var(--dark-grey);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        
+        .announcement-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .announcement-action {
+            font-size: 13px;
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-left: 15px;
+        }
+        
+        .recommended-list {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            margin: 0 -16px 20px;
+            padding: 0 16px 5px;
+            scroll-snap-type: x mandatory;
+        }
+        
+        .recommended-card {
+            flex: 0 0 250px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            scroll-snap-align: start;
+        }
+        
+        .recommended-image {
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .recommended-content {
+            padding: 15px;
+        }
+        
+        .recommended-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .recommended-desc {
+            font-size: 13px;
+            color: var(--dark-grey);
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .recommended-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .recommended-price {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .recommended-client {
+            color: var(--dark-grey);
+        }
+
+        /* 状态栏样式 */
+        .status-bar {
+            height: 44px;
+            background-color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .status-bar-time {
+            font-weight: 600;
+        }
+        
+        .status-bar-icons {
+            display: flex;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <div class="status-bar-time">9:41</div>
+            <div class="status-bar-icons">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
+            </div>
+        </div>
+        
+        <!-- 头部 -->
+        <div class="header">
+            <div>
+                <img src="https://via.placeholder.com/30x30/3C52AB/FFFFFF?text=S" alt="SWAP" style="border-radius: 8px;">
+            </div>
+            <div>
+                <i class="fas fa-search" style="font-size: 20px;"></i>
+            </div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content-area">
+            <!-- 欢迎卡片 -->
+            <div class="welcome-banner">
+                <div class="welcome-header">
+                    <div class="welcome-title">嗨，张明</div>
+                    <div class="user-status">
+                        <div class="status-dot"></div>
+                        接单中
+                    </div>
+                </div>
+                <div class="welcome-greeting">今天也是充满机会的一天！</div>
+                
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">进行中项目</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">¥12,500</div>
+                        <div class="stat-label">本月收入</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">新消息</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 快捷操作 -->
+            <div class="quick-actions">
+                <div class="section-title">快捷操作</div>
+                <div class="action-grid">
+                    <div class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="action-label">创建项目</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <div class="action-label">开具发票</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="action-label">提现</div>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="action-label">数据统计</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 进行中项目 -->
+            <div class="project-list">
+                <div class="section-title">
+                    进行中的项目
+                    <a href="projects.html" class="view-all">查看全部</a>
+                </div>
+                
+                <!-- 项目卡片1 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-info">
+                            <div class="project-title">电商平台UI设计</div>
+                            <div class="project-client">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="客户头像" class="client-avatar">
+                                优选科技
+                            </div>
+                        </div>
+                        <div class="project-badge urgent">紧急</div>
+                    </div>
+                    
+                    <div class="project-details">
+                        <div class="project-detail">
+                            <div class="detail-label">项目金额</div>
+                            <div class="detail-value">¥15,000</div>
+                        </div>
+                        <div class="project-detail">
+                            <div class="detail-label">截止日期</div>
+                            <div class="detail-value">2023/11/30</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-progress">
+                        <div class="progress-header">
+                            <div class="progress-label">项目进度</div>
+                            <div class="progress-value">60%</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-due due-urgent">
+                        <div class="due-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        还有5天截止，请尽快完成设计稿
+                    </div>
+                </div>
+                
+                <!-- 项目卡片2 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-info">
+                            <div class="project-title">企业官网重构</div>
+                            <div class="project-client">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="客户头像" class="client-avatar">
+                                星辰传媒
+                            </div>
+                        </div>
+                        <div class="project-badge">进行中</div>
+                    </div>
+                    
+                    <div class="project-details">
+                        <div class="project-detail">
+                            <div class="detail-label">项目金额</div>
+                            <div class="detail-value">¥8,500</div>
+                        </div>
+                        <div class="project-detail">
+                            <div class="detail-label">截止日期</div>
+                            <div class="detail-value">2023/12/15</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-progress">
+                        <div class="progress-header">
+                            <div class="progress-label">项目进度</div>
+                            <div class="progress-value">35%</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 35%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-due">
+                        <div class="due-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        还有20天截止
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 平台公告 -->
+            <div class="announcement-list">
+                <div class="section-title">
+                    平台公告
+                    <a href="#" class="view-all">更多</a>
+                </div>
+                
+                <div class="announcement-card">
+                    <div class="announcement-header">
+                        <div class="announcement-title">系统升级通知</div>
+                        <div class="announcement-date">今天</div>
+                    </div>
+                    <div class="announcement-content">
+                        SWAP平台将于11月15日凌晨2:00-4:00进行系统升级维护，期间可能影响部分功能使用，请合理安排工作。
+                    </div>
+                    <div class="announcement-actions">
+                        <div class="announcement-action">已读</div>
+                    </div>
+                </div>
+                
+                <div class="announcement-card">
+                    <div class="announcement-header">
+                        <div class="announcement-title">新功能上线：合同电子签约</div>
+                        <div class="announcement-date">昨天</div>
+                    </div>
+                    <div class="announcement-content">
+                        平台已上线合同电子签约功能，支持线上签约和合同管理，提高合作效率，确保权益保障。点击了解详情。
+                    </div>
+                    <div class="announcement-actions">
+                        <div class="announcement-action">已读</div>
+                        <div class="announcement-action">查看详情</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 推荐项目 -->
+            <div class="section-title">
+                为您推荐的项目
+                <a href="#" class="view-all">更多</a>
+            </div>
+            
+            <div class="recommended-list">
+                <div class="recommended-card">
+                    <div class="recommended-image" style="background-image: url('https://via.placeholder.com/250x120/3C52AB/FFFFFF?text=项目1');"></div>
+                    <div class="recommended-content">
+                        <div class="recommended-title">移动应用UI设计</div>
+                        <div class="recommended-desc">
+                            为健康医疗行业设计一款移动应用界面，包括用户注册、预约、咨询等功能模块
+                        </div>
+                        <div class="recommended-meta">
+                            <div class="recommended-price">¥12,000</div>
+                            <div class="recommended-client">医疗科技</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recommended-card">
+                    <div class="recommended-image" style="background-image: url('https://via.placeholder.com/250x120/4CAF50/FFFFFF?text=项目2');"></div>
+                    <div class="recommended-content">
+                        <div class="recommended-title">品牌VI设计</div>
+                        <div class="recommended-desc">
+                            为新创科技企业设计品牌标识、名片、宣传册等VI系统元素
+                        </div>
+                        <div class="recommended-meta">
+                            <div class="recommended-price">¥8,000</div>
+                            <div class="recommended-client">科技创新</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recommended-card">
+                    <div class="recommended-image" style="background-image: url('https://via.placeholder.com/250x120/FF9800/FFFFFF?text=项目3');"></div>
+                    <div class="recommended-content">
+                        <div class="recommended-title">响应式网站开发</div>
+                        <div class="recommended-desc">
+                            为餐饮品牌开发响应式网站，包括菜单展示、预订系统和会员功能
+                        </div>
+                        <div class="recommended-meta">
+                            <div class="recommended-price">¥15,000</div>
+                            <div class="recommended-client">美食集团</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航 -->
+        <div class="tab-bar">
+            <a href="home.html" class="tab-item tab-active">
+                <i class="tab-icon fas fa-home"></i>
+                <span class="tab-text">首页</span>
+            </a>
+            <a href="projects.html" class="tab-item">
+                <i class="tab-icon fas fa-briefcase"></i>
+                <span class="tab-text">项目</span>
+            </a>
+            <a href="notifications.html" class="tab-item">
+                <div style="position: relative;">
+                    <i class="tab-icon fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="tab-text">消息</span>
+            </a>
+            <a href="profile.html" class="tab-item">
+                <i class="tab-icon fas fa-user"></i>
+                <span class="tab-text">我的</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html> 
