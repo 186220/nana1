@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SWAP - 自由职业者接单管理APP</title>
-    <link rel="stylesheet" href="app/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -23,6 +22,50 @@
             font-size: 18px;
             color: #555;
         }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .grid-item {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .grid-title {
+            padding: 15px;
+            background: #3C52AB;
+            color: white;
+            font-weight: 500;
+            text-align: center;
+        }
+        iframe {
+            width: 100%;
+            height: 844px;
+            border: none;
+        }
+        .folder-title {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #3C52AB;
+            font-size: 24px;
+            font-weight: 500;
+        }
+        /* 添加iframe容器样式 */
+        .iframe-container {
+            width: 393px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -31,35 +74,95 @@
         <p>SWAP是一款为自由职业接单者打造的项目管理工具，帮助您实时管理订单、维护个人品牌、接收关键通知，提升工作效率。</p>
     </div>
 
+    <!-- 原始版本 -->
+    <div class="folder-title">原始版本 (app)</div>
     <div class="grid-container">
         <div class="grid-item">
             <div class="grid-title">首页 (Home)</div>
-            <iframe src="app/home.html" width="100%" height="844px" frameborder="0"></iframe>
+            <div class="iframe-container">
+                <iframe src="app/home.html"></iframe>
+            </div>
         </div>
         
         <div class="grid-item">
             <div class="grid-title">项目 (Projects)</div>
-            <iframe src="app/projects.html" width="100%" height="844px" frameborder="0"></iframe>
+            <div class="iframe-container">
+                <iframe src="app/projects.html"></iframe>
+            </div>
         </div>
         
         <div class="grid-item">
             <div class="grid-title">消息 (Notifications)</div>
-            <iframe src="app/notifications.html" width="100%" height="844px" frameborder="0"></iframe>
+            <div class="iframe-container">
+                <iframe src="app/notifications.html"></iframe>
+            </div>
         </div>
         
         <div class="grid-item">
             <div class="grid-title">我的 (Profile)</div>
-            <iframe src="app/profile.html" width="100%" height="844px" frameborder="0"></iframe>
+            <div class="iframe-container">
+                <iframe src="app/profile.html"></iframe>
+            </div>
         </div>
         
         <div class="grid-item">
             <div class="grid-title">评价系统</div>
-            <iframe src="app/reviews.html" width="100%" height="844px" frameborder="0"></iframe>
+            <div class="iframe-container">
+                <iframe src="app/reviews.html"></iframe>
+            </div>
         </div>
         
         <div class="grid-item">
             <div class="grid-title">个人名片分享</div>
-            <iframe src="app/profile_share.html" width="100%" height="844px" frameborder="0"></iframe>
+            <div class="iframe-container">
+                <iframe src="app/profile_share.html"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- V2版本 -->
+    <div class="folder-title">V2版本 (SWAP_v2/app)</div>
+    <div class="grid-container">
+        <div class="grid-item">
+            <div class="grid-title">首页 (Home)</div>
+            <div class="iframe-container">
+                <iframe src="SWAP_v2/app/home.html"></iframe>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="grid-title">项目 (Projects)</div>
+            <div class="iframe-container">
+                <iframe src="SWAP_v2/app/projects.html"></iframe>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="grid-title">消息 (Notifications)</div>
+            <div class="iframe-container">
+                <iframe src="SWAP_v2/app/notifications.html"></iframe>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="grid-title">我的 (Profile)</div>
+            <div class="iframe-container">
+                <iframe src="SWAP_v2/app/profile.html"></iframe>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="grid-title">评价系统</div>
+            <div class="iframe-container">
+                <iframe src="SWAP_v2/app/reviews.html"></iframe>
+            </div>
+        </div>
+        
+        <div class="grid-item">
+            <div class="grid-title">个人名片分享</div>
+            <div class="iframe-container">
+                <iframe src="SWAP_v2/app/profile_share.html"></iframe>
+            </div>
         </div>
     </div>
 </body>

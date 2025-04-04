@@ -7,307 +7,17 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .profile-header {
-            margin: 15px 0 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+        /* 添加页面宽度限制和基础样式 */
+        .app-container {
+            max-width: 393px;
+            margin: 0 auto;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            position: relative;
+            padding: 0 16px;
         }
         
-        .profile-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            border: 3px solid white;
-            box-shadow: var(--shadow);
-        }
-        
-        .profile-name {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .profile-position {
-            font-size: 14px;
-            color: var(--dark-grey);
-            margin-bottom: 10px;
-        }
-        
-        .profile-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .profile-tag {
-            background-color: var(--grey-color);
-            color: var(--dark-grey);
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 100px;
-            font-weight: 500;
-        }
-        
-        .profile-stats {
-            display: flex;
-            width: 100%;
-            justify-content: space-around;
-            margin-top: 15px;
-        }
-        
-        .stats-item {
-            text-align: center;
-        }
-        
-        .stats-value {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .stats-label {
-            font-size: 12px;
-            color: var(--dark-grey);
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            margin-top: 20px;
-        }
-        
-        .action-button {
-            flex: 1;
-            background-color: white;
-            border: 1px solid var(--grey-color);
-            border-radius: 8px;
-            padding: 10px 0;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--dark-grey);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-        
-        .action-button i {
-            font-size: 16px;
-        }
-        
-        .action-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-        
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin: 25px 0 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .section-action {
-            font-size: 13px;
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-        
-        .function-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-        
-        .function-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        
-        .function-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            background-color: var(--light-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-            font-size: 22px;
-        }
-        
-        .function-name {
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .module-card {
-            background-color: white;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
-        }
-        
-        .module-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .module-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background-color: var(--light-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            color: var(--primary-color);
-            font-size: 18px;
-        }
-        
-        .module-title {
-            font-size: 16px;
-            font-weight: 600;
-        }
-        
-        .wallet-balance {
-            font-size: 24px;
-            font-weight: 600;
-            margin: 10px 0 15px;
-        }
-        
-        .balance-desc {
-            color: var(--dark-grey);
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
-        
-        .action-row {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .action-row .action-button {
-            padding: 8px 0;
-        }
-        
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--grey-color);
-        }
-        
-        .stat-row:last-child {
-            border-bottom: none;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: var(--dark-grey);
-        }
-        
-        .stat-value {
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .account-menu {
-            margin-top: 25px;
-        }
-        
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--grey-color);
-        }
-        
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-        
-        .menu-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: var(--grey-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 16px;
-            color: var(--primary-color);
-        }
-        
-        .menu-text {
-            flex: 1;
-            font-size: 15px;
-            font-weight: 500;
-        }
-        
-        .menu-arrow {
-            color: var(--dark-grey);
-        }
-        
-        .promotion-banner {
-            background: linear-gradient(to right, #3C52AB, #5D78D3);
-            border-radius: 12px;
-            padding: 15px;
-            color: white;
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .promotion-icon {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 24px;
-        }
-        
-        .promotion-content {
-            flex: 1;
-        }
-        
-        .promotion-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .promotion-desc {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-        
-        .promotion-arrow {
-            padding: 5px;
-        }
-
-        /* 状态栏样式 */
+        /* 状态栏和头部样式保持统一 */
         .status-bar {
             height: 44px;
             background-color: #FFFFFF;
@@ -319,13 +29,315 @@
             font-weight: 600;
         }
         
-        .status-bar-time {
-            font-weight: 600;
+        .header {
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+            font-size: 16px;
         }
         
-        .status-bar-icons {
+        /* 修改个人信息头部样式 */
+        .profile-header {
+            margin: 0 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: white;
+            padding: 20px 16px;
+            border-radius: 0;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 12px;
+            border: none;
+            box-shadow: none;
+        }
+        
+        .profile-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .profile-position {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .profile-tags {
             display: flex;
             gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-tag {
+            background-color: #f5f5f5;
+            color: #666;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            margin-top: 0;
+        }
+        
+        .action-button {
+            flex: 1;
+            height: 36px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+        }
+        
+        .action-button.action-primary {
+            background-color: #3C52AB;
+            border-color: #3C52AB;
+            color: white;
+        }
+        
+        /* 修改功能网格样式 */
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            background-color: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .function-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+        }
+        
+        .function-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background-color: #f0f2f5;
+            color: #3C52AB;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0;
+        }
+        
+        .function-name {
+            font-size: 12px;
+            color: #333;
+        }
+        
+        /* 修改认证设计师卡片样式 */
+        .promotion-banner {
+            background-color: #3C52AB;
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 12px 0;
+        }
+        
+        .promotion-content {
+            color: white;
+        }
+        
+        .promotion-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .promotion-desc {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .promotion-arrow {
+            color: white;
+            font-size: 12px;
+        }
+        
+        /* 修改钱包卡片样式 */
+        .wallet-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .wallet-title {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .wallet-amount {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .wallet-desc {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .wallet-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .wallet-action {
+            flex: 1;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #666;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+        
+        /* 修改工作统计卡片样式 */
+        .stats-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .stats-title {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .stats-label {
+            color: #666;
+        }
+        
+        .stats-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        /* 修改账户管理列表样式 */
+        .account-menu {
+            background-color: white;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            color: #3C52AB;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        
+        .menu-text {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .menu-arrow {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        /* 底部导航栏样式保持统一 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 393px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--dark-grey);
+            text-decoration: none;
+            font-size: 12px;
+            gap: 4px;
+        }
+        
+        .tab-item i {
+            font-size: 20px;
+        }
+        
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+        
+        .content-area {
+            padding-bottom: 80px;
         }
     </style>
 </head>
@@ -361,18 +373,6 @@
                     <div class="profile-tag">前端开发</div>
                     <div class="profile-tag">SWAP认证</div>
                 </div>
-                
-                <div class="action-buttons">
-                    <div class="action-button">
-                        <i class="fas fa-edit"></i>
-                        编辑资料
-                    </div>
-                    <div class="action-button action-primary">
-                        <i class="fas fa-share-alt"></i>
-                        分享名片
-                    </div>
-                </div>
-                
                 <div class="profile-stats">
                     <div class="stats-item">
                         <div class="stats-value">4.8</div>
@@ -387,10 +387,19 @@
                         <div class="stats-label">完成项目</div>
                     </div>
                 </div>
+                <div class="action-buttons">
+                    <div class="action-button">
+                        <i class="fas fa-edit"></i>
+                        编辑资料
+                    </div>
+                    <div class="action-button action-primary">
+                        <i class="fas fa-share-alt"></i>
+                        分享名片
+                    </div>
+                </div>
             </div>
             
-            <!-- 功能模块 -->
-            <div class="section-title">常用功能</div>
+            <!-- 常用功能 -->
             <div class="function-grid">
                 <div class="function-item">
                     <div class="function-icon">
@@ -398,49 +407,42 @@
                     </div>
                     <div class="function-name">我的钱包</div>
                 </div>
-                
                 <div class="function-item">
                     <div class="function-icon">
                         <i class="fas fa-file-invoice"></i>
                     </div>
                     <div class="function-name">发票管理</div>
                 </div>
-                
                 <div class="function-item">
                     <div class="function-icon">
                         <i class="fas fa-star"></i>
                     </div>
                     <div class="function-name">我的评价</div>
                 </div>
-                
                 <div class="function-item">
                     <div class="function-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="function-name">数据统计</div>
                 </div>
-                
                 <div class="function-item">
                     <div class="function-icon">
                         <i class="fas fa-heart"></i>
                     </div>
                     <div class="function-name">收藏项目</div>
                 </div>
-                
                 <div class="function-item">
                     <div class="function-icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                     <div class="function-name">工作日历</div>
                 </div>
-                
                 <div class="function-item">
                     <div class="function-icon">
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="function-name">我的客户</div>
                 </div>
-                
                 <div class="function-item">
                     <div class="function-icon">
                         <i class="fas fa-ellipsis-h"></i>
@@ -449,11 +451,8 @@
                 </div>
             </div>
             
-            <!-- 推广横幅 -->
+            <!-- 认证设计师卡片 -->
             <div class="promotion-banner">
-                <div class="promotion-icon">
-                    <i class="fas fa-award"></i>
-                </div>
                 <div class="promotion-content">
                     <div class="promotion-title">成为SWAP认证设计师</div>
                     <div class="promotion-desc">享受更多曝光和高质量项目机会</div>
@@ -464,23 +463,16 @@
             </div>
             
             <!-- 我的钱包 -->
-            <div class="module-card">
-                <div class="module-header">
-                    <div class="module-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <div class="module-title">我的钱包</div>
-                </div>
-                
-                <div class="wallet-balance">￥15,632.00</div>
-                <div class="balance-desc">账户余额 (可提现¥15,532.00)</div>
-                
-                <div class="action-row">
-                    <div class="action-button">
+            <div class="wallet-card">
+                <div class="wallet-title">我的钱包</div>
+                <div class="wallet-amount">¥15,632.00</div>
+                <div class="wallet-desc">账户余额 (可提现¥15,532.00)</div>
+                <div class="wallet-actions">
+                    <div class="wallet-action">
                         <i class="fas fa-arrow-down"></i>
                         提现
                     </div>
-                    <div class="action-button">
+                    <div class="wallet-action">
                         <i class="fas fa-exchange-alt"></i>
                         交易记录
                     </div>
@@ -488,37 +480,29 @@
             </div>
             
             <!-- 工作统计 -->
-            <div class="module-card">
-                <div class="module-header">
-                    <div class="module-icon">
-                        <i class="fas fa-chart-pie"></i>
+            <div class="stats-card">
+                <div class="stats-title">工作统计</div>
+                <div class="stats-grid">
+                    <div class="stats-item">
+                        <div class="stats-label">本月收入</div>
+                        <div class="stats-value">¥8,500.00</div>
                     </div>
-                    <div class="module-title">工作统计</div>
-                </div>
-                
-                <div class="stat-row">
-                    <div class="stat-label">本月收入</div>
-                    <div class="stat-value">￥8,500.00</div>
-                </div>
-                
-                <div class="stat-row">
-                    <div class="stat-label">进行中项目</div>
-                    <div class="stat-value">3个</div>
-                </div>
-                
-                <div class="stat-row">
-                    <div class="stat-label">本月完成项目</div>
-                    <div class="stat-value">2个</div>
-                </div>
-                
-                <div class="stat-row">
-                    <div class="stat-label">待收款金额</div>
-                    <div class="stat-value">￥4,250.00</div>
+                    <div class="stats-item">
+                        <div class="stats-label">进行中项目</div>
+                        <div class="stats-value">3个</div>
+                    </div>
+                    <div class="stats-item">
+                        <div class="stats-label">本月完成项目</div>
+                        <div class="stats-value">2个</div>
+                    </div>
+                    <div class="stats-item">
+                        <div class="stats-label">待收款金额</div>
+                        <div class="stats-value">¥4,250.00</div>
+                    </div>
                 </div>
             </div>
             
             <!-- 账户管理 -->
-            <div class="section-title">账户管理</div>
             <div class="account-menu">
                 <div class="menu-item">
                     <div class="menu-icon">
@@ -529,7 +513,6 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
-                
                 <div class="menu-item">
                     <div class="menu-icon">
                         <i class="fas fa-bell"></i>
@@ -539,7 +522,6 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
-                
                 <div class="menu-item">
                     <div class="menu-icon">
                         <i class="fas fa-credit-card"></i>
@@ -549,7 +531,6 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
-                
                 <div class="menu-item">
                     <div class="menu-icon">
                         <i class="fas fa-headset"></i>
@@ -559,7 +540,6 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
-                
                 <div class="menu-item">
                     <div class="menu-icon">
                         <i class="fas fa-question-circle"></i>
@@ -575,23 +555,20 @@
         <!-- 底部导航 -->
         <div class="tab-bar">
             <a href="home.html" class="tab-item">
-                <i class="tab-icon fas fa-home"></i>
-                <span class="tab-text">首页</span>
+                <i class="fas fa-home"></i>
+                <span>首页</span>
             </a>
             <a href="projects.html" class="tab-item">
-                <i class="tab-icon fas fa-briefcase"></i>
-                <span class="tab-text">项目</span>
+                <i class="fas fa-briefcase"></i>
+                <span>项目</span>
             </a>
             <a href="notifications.html" class="tab-item">
-                <div style="position: relative;">
-                    <i class="tab-icon fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
-                </div>
-                <span class="tab-text">消息</span>
+                <i class="fas fa-bell"></i>
+                <span>消息</span>
             </a>
-            <a href="profile.html" class="tab-item tab-active">
-                <i class="tab-icon fas fa-user"></i>
-                <span class="tab-text">我的</span>
+            <a href="profile.html" class="tab-item active">
+                <i class="fas fa-user"></i>
+                <span>我的</span>
             </a>
         </div>
     </div>
