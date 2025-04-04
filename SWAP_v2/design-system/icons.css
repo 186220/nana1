@@ -1,0 +1,73 @@
+/* 图标基础样式 */
+.icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* 导航图标 */
+.icon-home {
+    background-image: url('../assets/icons/home.svg');
+}
+
+.icon-projects {
+    background-image: url('../assets/icons/projects.svg');
+}
+
+.icon-notifications {
+    background-image: url('../assets/icons/notifications.svg');
+}
+
+.icon-profile {
+    background-image: url('../assets/icons/profile.svg');
+}
+
+/* 功能图标 */
+.icon-search {
+    background-image: url('../assets/icons/search.svg');
+}
+
+.icon-filter {
+    background-image: url('../assets/icons/filter.svg');
+}
+
+.icon-settings {
+    background-image: url('../assets/icons/settings.svg');
+}
+
+.icon-edit {
+    background-image: url('../assets/icons/edit.svg');
+}
+
+.icon-delete {
+    background-image: url('../assets/icons/delete.svg');
+}
+
+/* 状态图标 */
+.icon-success {
+    background-image: url('../assets/icons/success.svg');
+}
+
+.icon-warning {
+    background-image: url('../assets/icons/warning.svg');
+}
+
+.icon-error {
+    background-image: url('../assets/icons/error.svg');
+}
+
+/* 交互图标 */
+.icon-like {
+    background-image: url('../assets/icons/like.svg');
+}
+
+.icon-comment {
+    background-image: url('../assets/icons/comment.svg');
+}
+
+.icon-share {
+    background-image: url('../assets/icons/share.svg');
+} 

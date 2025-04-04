@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAP - 页面预览</title>
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --background-color: #F5F5F5;
+            --text-primary: #333333;
+            --border-color: #E5E5E5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .preview-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        
+        .preview-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .preview-frame {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .preview-info {
+            padding: 15px;
+        }
+        
+        .preview-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .preview-link {
+            display: inline-block;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        
+        .preview-link:hover {
+            text-decoration: underline;
+        }
+        
+        .preview-description {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SWAP 页面预览</h1>
+        <p>点击页面标题可查看完整页面</p>
+    </div>
+    
+    <div class="preview-grid">
+        <!-- 首页预览 -->
+        <div class="preview-card">
+            <iframe class="preview-frame" src="home.html"></iframe>
+            <div class="preview-info">
+                <h2 class="preview-title">
+                    <a href="home.html" class="preview-link">首页</a>
+                </h2>
+                <p class="preview-description">展示用户主页，包含状态卡片、快捷入口和推荐内容</p>
+            </div>
+        </div>
+        
+        <!-- 项目页预览 -->
+        <div class="preview-card">
+            <iframe class="preview-frame" src="projects.html"></iframe>
+            <div class="preview-info">
+                <h2 class="preview-title">
+                    <a href="projects.html" class="preview-link">项目</a>
+                </h2>
+                <p class="preview-description">展示项目列表，支持筛选和搜索功能</p>
+            </div>
+        </div>
+        
+        <!-- 消息页预览 -->
+        <div class="preview-card">
+            <iframe class="preview-frame" src="notifications.html"></iframe>
+            <div class="preview-info">
+                <h2 class="preview-title">
+                    <a href="notifications.html" class="preview-link">消息</a>
+                </h2>
+                <p class="preview-description">展示系统通知和用户互动消息</p>
+            </div>
+        </div>
+        
+        <!-- 个人主页预览 -->
+        <div class="preview-card">
+            <iframe class="preview-frame" src="profile.html"></iframe>
+            <div class="preview-info">
+                <h2 class="preview-title">
+                    <a href="profile.html" class="preview-link">个人主页</a>
+                </h2>
+                <p class="preview-description">展示用户个人信息和作品集</p>
+            </div>
+        </div>
+        
+        <!-- 评价页预览 -->
+        <div class="preview-card">
+            <iframe class="preview-frame" src="reviews.html"></iframe>
+            <div class="preview-info">
+                <h2 class="preview-title">
+                    <a href="reviews.html" class="preview-link">评价</a>
+                </h2>
+                <p class="preview-description">展示用户评价和评分信息</p>
+            </div>
+        </div>
+        
+        <!-- SVG导出页预览 -->
+        <div class="preview-card">
+            <iframe class="preview-frame" src="export_svg.html"></iframe>
+            <div class="preview-info">
+                <h2 class="preview-title">
+                    <a href="export_svg.html" class="preview-link">SVG导出</a>
+                </h2>
+                <p class="preview-description">将页面内容导出为SVG格式</p>
+            </div>
+        </div>
+        
+        <!-- SVG预览页 -->
+        <div class="preview-card">
+            <iframe class="preview-frame" src="svg_preview.html"></iframe>
+            <div class="preview-info">
+                <h2 class="preview-title">
+                    <a href="svg_preview.html" class="preview-link">SVG预览</a>
+                </h2>
+                <p class="preview-description">预览生成的SVG文件</p>
+            </div>
+        </div>
+        
+        <!-- 个人主页分享页预览 -->
+        <div class="preview-card">
+            <iframe class="preview-frame" src="profile_share.html"></iframe>
+            <div class="preview-info">
+                <h2 class="preview-title">
+                    <a href="profile_share.html" class="preview-link">个人主页分享</a>
+                </h2>
+                <p class="preview-description">用于分享的个人主页简化版</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
